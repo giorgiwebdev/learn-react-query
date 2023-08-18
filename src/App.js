@@ -1,24 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import {
+  QueryClient,
+  QueryCache,
+  MutationCache,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  queryCache,
+  mutationCache,
+  logger,
+  defaultOptions,
+});
+
+const queryCache = new QueryCache({
+  onError: (error) => {
+    //do something on error
+  },
+  onSuccess: (data) => {
+    //do something on success
+  },
+});
+
+const mutationCache = new MutationCache({
+  onError: (error) => {
+    //do something on error
+  },
+  onSuccess: (data) => {
+    //do something on success
+  },
+  onMutate: (newData) => {
+    //do something behore the mutation
+  },
+});
+
+const logger = {
+  log: (...args) => {
+    // here you call your custom log function
+  },
+  warn: (...args) => {
+    // here you call your custom warn function
+  },
+  error: (...args) => {
+    // here you call your custom error function
+  },
+};
+
+const defaultOptions = {
+  queries: {
+    staleTime: Infinity,
+  },
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      some component
+    </QueryClientProvider>
   );
 }
 
