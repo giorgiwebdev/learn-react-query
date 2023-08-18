@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
 import {
   QueryClient,
@@ -7,9 +8,19 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import {
+  // floating mode
   ReactQueryDevtools,
-  ReactQueryDevtoolsPanel,
+  //embeded mode
+  // ReactQueryDevtoolsPanel
 } from "@tanstack/react-query-devtools";
+
+const ReactQueryDevtoolsProduction = React.lazy(() =>
+  import("@tanstack/react-query-devtools/build/lib/index.prod.js").then(
+    (d) => ({
+      default: d.ReactQueryDevtools,
+    })
+  )
+);
 
 const queryCache = new QueryCache({
   onError: (error) => {
@@ -60,8 +71,10 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      {/* floating mode */}
       <ReactQueryDevtools initialIsOpen={false} />
-      <ReactQueryDevtoolsPanel />
+      {/* embeded mode */}
+      {/* <ReactQueryDevtoolsPanel /> */}
       some component
     </QueryClientProvider>
   );
