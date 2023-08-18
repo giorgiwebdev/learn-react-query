@@ -6,13 +6,10 @@ import {
   MutationCache,
   QueryClientProvider,
 } from "@tanstack/react-query";
-
-const queryClient = new QueryClient({
-  queryCache,
-  mutationCache,
-  logger,
-  defaultOptions,
-});
+import {
+  ReactQueryDevtools,
+  ReactQueryDevtoolsPanel,
+} from "@tanstack/react-query-devtools";
 
 const queryCache = new QueryCache({
   onError: (error) => {
@@ -53,9 +50,18 @@ const defaultOptions = {
   },
 };
 
+const queryClient = new QueryClient({
+  queryCache,
+  mutationCache,
+  logger,
+  defaultOptions,
+});
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtoolsPanel />
       some component
     </QueryClientProvider>
   );
