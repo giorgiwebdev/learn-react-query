@@ -86,6 +86,15 @@ function App() {
     enabled: arrayVariable.length > 0, //default: true
     onSuccess: (data) => console.log("query was successful", data),
     onError: (error) => console.log("query was unsuccessful", error.message),
+
+    //options related to data refetching
+    refetchOnMount: "always", // refetch even if the cached data is not stale (whenever any component using it mounts)
+    refetchOnReconnect: true, // refetch only if our data is stale(not fresh) (after regain connection after being offlin)
+    refetchOnWindowFocus: false, // never refetch (on window focus)
+
+    //force our hook to refetch
+    refetchInterval: 2000, //refetch every 2 seconds
+    refetchIntervalInBackground: true, //keep refetching, even if your window or tab is in the background. ( "Keep checking for updates, even if you're not looking at the weather.")
   });
 
   return (
