@@ -65,6 +65,7 @@ const queryClient = new QueryClient({
 
 function App() {
   const fetchData = () => data;
+  const fetchDependentData = () => dependentData;
   const arrayVariable = [];
 
   const {
@@ -110,6 +111,25 @@ function App() {
   //This function will allow you to trigger a refetch for just that query.
   ////we can call that function whenever we want to force that query to refetch.
   refetch();
+
+  //Fetching dependent queries with useQuery, enabled option.
+  const { data: firstQueryData } = useQuery({
+    queryKey: ["api"],
+    queryFn: fetchData,
+  });
+
+  //check if our previous query has the data we need.
+  //This Boolean variable will help us decide if our next query can fetch
+  const canThisDependentQueryFetch = firstQueryData?.hello !== undefined;
+
+  //When the previous query finishes fetching the data,
+  //the canThisDependentQueryFetch Boolean will be set to true
+  //and enable this dependent query to run.
+  const { data: dependentData } = useQuery({
+    queryKey: ["dependentApi", firstQueryData?.hello],
+    queryFn: fetchDependentData,
+    enabled: canThisDependentQueryFetch, //React Query allows you to make a query depend on others via the enabled option.
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
