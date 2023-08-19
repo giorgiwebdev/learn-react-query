@@ -6,21 +6,15 @@ import {
   QueryCache,
   MutationCache,
   QueryClientProvider,
+  useQuery,
 } from "@tanstack/react-query";
+
 import {
   // floating mode
   ReactQueryDevtools,
   //embeded mode
   // ReactQueryDevtoolsPanel
 } from "@tanstack/react-query-devtools";
-
-const ReactQueryDevtoolsProduction = React.lazy(() =>
-  import("@tanstack/react-query-devtools/build/lib/index.prod.js").then(
-    (d) => ({
-      default: d.ReactQueryDevtools,
-    })
-  )
-);
 
 const queryCache = new QueryCache({
   onError: (error) => {
@@ -69,6 +63,31 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  const fetchData = () => data;
+  const arrayVariable = [];
+
+  const {
+    data,
+    error,
+    status,
+    isLoading,
+    isSuccess,
+    isError,
+    fetchStatus,
+    isFetching,
+    isPaused,
+  } = useQuery({
+    queryKey: ["api"],
+    queryFn: fetchData,
+    staleTime: 60000, //default : 0
+    cacheTime: 60000, //default: 5 minutes
+    retry: false, //default: queries that are failing will be retried three times.
+    retryDelay: (attempt) => attempt * 2000, //default : an exponential backoff delay algorithm
+    enabled: arrayVariable.length > 0, //default: true
+    onSuccess: (data) => console.log("query was successful", data),
+    onError: (error) => console.log("query was unsuccessful", error.message),
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* floating mode */}
