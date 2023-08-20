@@ -1,3 +1,4 @@
+import React from "react";
 import { useQuery, useQueries, useQueryClient } from "@tanstack/react-query";
 
 const fetchData = () => [];
@@ -97,3 +98,44 @@ const QueryInvalidation = () => {
     </div>
   );
 };
+
+//prefetching
+const ExamplePrefetching = () => {
+  const [renderComponent, setRenderComponent] = React.useState(false);
+  const queryClient = useQueryClient();
+  const prefetchData = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: [{ queryIdentifier: "api", username: "userOne" }],
+      queryFn: fetchData,
+      staleTime: 60000,
+    });
+  };
+  return (
+    <div>
+      <button
+        onMouseEnter={prefetchData}
+        onClick={() => setRenderComponent(true)}
+      >
+        {" "}
+        Render Component{" "}
+      </button>
+      {renderComponent ? <PrefetchedDataComponent /> : null}
+    </div>
+  );
+};
+
+const PrefetchedDataComponent = () => {
+  const { data } = useQuery({
+    queryKey: [{ queryIdentifier: "api", username: "userOne" }],
+    queryFn: fetchData,
+  });
+  return <div>{data?.hello}</div>;
+};
+//flow the above code :
+// 1.ExamplePrefetching is rendered.
+// 2.The user will see a button saying Render Component.
+// 3.The user puts their mouse over the button to click on it. At this time, we predict that the user will click on the button, so we trigger the data prefetching. Once the data has been prefetched, it is cached under the [{ queryIdentifier: "api", username: "userOne" }] query key.
+// 4.The user clicks on the button.
+// 5.PrefetchedDataComponent is rendered.
+// 6.The useQuery hook that is identified by the [{ queryIdentifier: "api", username: "userOne" }] query key will already have the data cached and marked as fresh for one minute, so it doesn’t need to trigger data-fetching.
+// 7.The user sees the prefetched data rendered.
