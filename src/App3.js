@@ -69,3 +69,31 @@ const ExampleThree = () => {
   //send a combination of filters
   queryClient.refetchQueries({ queryKey: ["api"], stale: true });
 };
+
+//Fetching a Book (Data)
+//Shelf (Cache) and Book (Data)
+//Invalidation is Like Marking a Book Old
+//Invalidate Queries Like Taking the Old Book Off
+//Updating the Book (Refetching)
+//New Book (Fresh Data) on the Shelf (Cache)
+const QueryInvalidation = () => {
+  const { data } = useQuery({
+    queryKey: [{ queryIdentifier: "api", username: "userOne" }],
+    queryFn: fetchData,
+  });
+  const queryClient = useQueryClient();
+  return (
+    <div>
+      <p>{data?.hello}</p>
+      <button
+        onClick={() =>
+          queryClient.invalidateQueries({
+            queryKey: [{ queryIdentifier: "api" }],
+          })
+        }
+      >
+        Invalidate Query
+      </button>
+    </div>
+  );
+};
