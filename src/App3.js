@@ -162,3 +162,13 @@ const fetchDataWithFetch = async ({ queryKey, signal }) => {
   if (!response.ok) throw new Error("Something failed in your request");
   return response.json();
 };
+
+//how we can leverage AbortSignal with graphql-request
+const fetchGQL = async ({signal}) => {
+  const endpoint = <Add_Endpoint_here>;
+  const client = new GraphQLClient(endpoint)
+  const {
+    posts: { data },
+  } = await client.request({document: customQuery, signal});
+  return data;
+};
