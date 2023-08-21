@@ -164,11 +164,14 @@ const fetchDataWithFetch = async ({ queryKey, signal }) => {
 };
 
 //how we can leverage AbortSignal with graphql-request
-const fetchGQL = async ({signal}) => {
-  const endpoint = <Add_Endpoint_here>;
-  const client = new GraphQLClient(endpoint)
-  const {
-    posts: { data },
-  } = await client.request({document: customQuery, signal});
-  return data;
-};
+// const fetchGQL = async ({signal}) => {
+//   const endpoint = <Add_Endpoint_here>;
+//   const client = new GraphQLClient(endpoint)
+//   const {
+//     posts: { data },
+//   } = await client.request({document: customQuery, signal});
+//   return data;
+// };
+
+//manual cancelation of data fetching after passing the signal to our clients
+queryClient.cancelQueries({ queryKey: ["api"] });
