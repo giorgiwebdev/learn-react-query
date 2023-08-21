@@ -175,3 +175,48 @@ const fetchDataWithFetch = async ({ queryKey, signal }) => {
 
 //manual cancelation of data fetching after passing the signal to our clients
 queryClient.cancelQueries({ queryKey: ["api"] });
+
+//automatic cancelation of data fetching after passing the signal to our clients
+const fetchDataThree = async ({ queryKey, signal }) => {
+  const { username } = queryKey[0];
+  const { data } = await axios.get(
+    `https://danieljcafonso.builtwithdark.com/
+      react-query-api/${username}`,
+    { signal }
+  );
+  return data;
+};
+
+const ExampleQueryCancelation = () => {
+  const [renderComponent, setRenderComponent] = React.useState(false);
+  return (
+    <div>
+      <button onClick={() => setRenderComponent(!renderComponent)}>
+        Render Component
+      </button>
+      {renderComponent ? <QueryCancelation /> : null}
+    </div>
+  );
+};
+
+const QueryCancelation = () => {
+  const { data } = useQuery({
+    queryKey: [{ queryIdentifier: "api", username: "userOne" }],
+    queryFn: fetchData,
+  });
+  const queryClient = useQueryClient();
+  return (
+    <div>
+      <p>{data?.hello}</p>
+      <button
+        onClick={() =>
+          queryClient.cancelQueries({
+            queryKey: [{ queryIdentifier: "api" }],
+          })
+        }
+      >
+        Cancel Query
+      </button>
+    </div>
+  );
+};
