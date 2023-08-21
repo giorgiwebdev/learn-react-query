@@ -150,3 +150,15 @@ const fetchDataSecondFunction = async ({ queryKey, signal }) => {
   );
   return data;
 };
+
+//how we can leverage AbortSignal with fetch
+const fetchDataWithFetch = async ({ queryKey, signal }) => {
+  const { username } = queryKey[0];
+  const response = await fetch(
+    `https://danieljcafonso.builtwithdark.com/
+      react-query-api/${username}`,
+    { signal }
+  );
+  if (!response.ok) throw new Error("Something failed in your request");
+  return response.json();
+};
