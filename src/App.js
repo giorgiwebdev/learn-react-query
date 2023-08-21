@@ -78,9 +78,11 @@ function App() {
     fetchStatus,
     isFetching,
     isPaused,
+    isPreviousData,
   } = useQuery({
     queryKey: ["api"],
     queryFn: fetchData,
+    keepPreviousData: true, //default: false, We set this option as true because, by default, whenever our query key changes, so will the query data; now, because we have a paginated API, we want to keep showing our data even if we change pages.
     staleTime: 60000, //default : 0
     cacheTime: 60000, //default: 5 minutes
     retry: false, //default: queries that are failing will be retried three times.

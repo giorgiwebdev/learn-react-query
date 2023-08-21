@@ -222,7 +222,6 @@ import { useQuery, useQueries, useQueryClient } from "@tanstack/react-query";
 //   );
 // };
 
-
 //
 const fetchData = async ({ queryKey }) => {
   const { page } = queryKey[0];
