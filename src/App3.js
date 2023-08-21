@@ -139,3 +139,14 @@ const PrefetchedDataComponent = () => {
 // 5.PrefetchedDataComponent is rendered.
 // 6.The useQuery hook that is identified by the [{ queryIdentifier: "api", username: "userOne" }] query key will already have the data cached and marked as fresh for one minute, so it doesn’t need to trigger data-fetching.
 // 7.The user sees the prefetched data rendered.
+
+//how we can leverage AbortSignal with axios
+const fetchDataSecondFunction = async ({ queryKey, signal }) => {
+  const { username } = queryKey[0];
+  const { data } = await axios.get(
+    `https://danieljcafonso.builtwithdark.com/
+      react-query-api/${username}`,
+    { signal }
+  );
+  return data;
+};
