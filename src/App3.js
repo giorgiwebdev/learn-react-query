@@ -2,32 +2,6 @@ import React from "react";
 import axios from "axios";
 import { useQuery, useQueries, useQueryClient } from "@tanstack/react-query";
 
-// const fetchData = () => [];
-
-// const ExampleThree = () => {
-//   const queryClient = useQueryClient();
-
-//   //refetch all the queries that either match or start with the query key, ["api"], Query key
-//   queryClient.refetchQueries({ queryKey: ["api"] });
-
-//   //refetch all the queries that are currently active, Query type
-//   queryClient.refetchQueries({ type: "active" });
-
-//   //refetch all the queries whose staleTime has elapsed and are now considered stale, Whether the query is stale or fresh
-//   queryClient.refetchQueries({ stale: true });
-
-//   //refetch all the queries that are currently not fetching anything, fetchStatus
-//   queryClient.refetchQueries({ fetchStatus: "idle" });
-
-//   //all queries whose status is currently an error will refetch, A predicate function
-//   queryClient.refetchQueries({
-//     predicate: (query) => query.state.status === "error",
-//   });
-
-//   //send a combination of filters
-//   queryClient.refetchQueries({ queryKey: ["api"], stale: true });
-// };
-
 // //Fetching a Book (Data)
 // //Shelf (Cache) and Book (Data)
 // //Invalidation is Like Marking a Book Old
